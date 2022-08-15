@@ -1,0 +1,208 @@
+<style>
+  .delete_edit_container{
+    position: relative;
+  }
+  .delete_edit_container button,.delete_edit_container a{
+    position: absolute;
+  }
+  .delete_feedback_modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); 
+  }
+  @media screen and (max-width:653px) {
+    .delete_feedback_modal{
+        padding-top: 30%;
+    }
+  }
+  
+
+  .custome_model_content {
+    background-color: #fefefe !important;
+    margin: 15% auto !important; 
+    padding: 20px !important;
+    border: 1px solid #888 !important;
+    width: 40% !important; 
+  }
+
+  @media screen and (max-width:653px) {
+    .custome_model_content{
+        width: 90% !important; 
+    }
+    
+  }
+
+.delete_feedback_modal_body{
+    line-height: 0.1;
+}
+  .feedback_modal_close:hover,
+  .feedback_modal_close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+</style>
+
+<div class="my-4 container">
+
+  {% for feedBack in AllProductFeedback %}
+    <div class="card p-3 my-2 poppins_font">
+
+      <div class="row">
+        
+
+        <div class="col-7 col-md-10 col-lg-10">
+          <h5 style="font-size: 17px; line-height: .5;">
+            @{{ feedBack.user.username }}
+          </h5>
+          <small style="font-size: 12px;">{{ feedBack.createdDate }}</small>
+        </div>
+
+      
+
+        <!-- delete feedback modal -->
+        <div id="modal_btn" class="delete_feedback_modal">
+          <div class="modal-content custome_model_content">
+              <p class="delete_feedback_modal_body mt-3 poppins_font" style="font-size: 16px;">Are you sure ?</p>
+              <hr>
+              <div class="ms-auto">
+                  <a href="{% url 'DeleteFeedback' id=feedBack.id %}" style="font-size: 13px;" class="btn text-white btn-success poppins_font">Yes</a>
+                  <span class="btn btn-danger feedback_modal_close text-white poppins_font" style="font-size: 13px;">No</span>
+              </div>
+          </div>
+        </div>
+
+        
+
+        {% if request.user == feedBack.user %}
+        {% if user.account_type == None %}
+        <div class="col-5 col-md-2 col-lg-2 d-flex delete_edit_container">
+          <button class="text-end poppins_font mx-1 btn btn-success update_feedback_btn{{feedBack.pk}}" style="font-size: 13px;"><i class="bi bi-pencil-square"></i></button>
+          <a href="#!" class="text-end poppins_font mx-5 btn btn-danger" id="delete_feedback_modal_open_btn" style="font-size: 13px;"><i class="bi bi-trash"></i></a>
+        </div>
+        {% endif %}
+        {% endif %}
+
+      </div>
+
+      <script>
+        var modal = document.getElementById("modal_btn");
+
+        var btn = document.getElementById("delete_feedback_modal_open_btn");
+
+        var span = document.getElementsByClassName("feedback_modal_close")[0];
+
+        btn.onclick = function() {
+          modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+      </script>
+      
+        
+        <hr>
+        <p class="mt-3" style="font-size: 15px;">
+          {{ feedBack.feedBACK }}
+        </p>
+        <hr>
+
+
+      <div class="d-flex">
+        
+        <!-- username -->
+        <div style="font-weight:500;"> <p>{{feedBack.user.first_name}} {{feedBack.user.last_name}}</p></div>
+        
+        
+        
+        {% if feedBack.rating < 1 %}
+        <div class="mx-1 mt-1" style="font-size: 11px;">
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+        </div>
+
+        
+        {% elif feedBack.rating < 2 %}
+        <div class="mx-1 mt-1" style="font-size: 11px;">
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+        </div>
+
+        {% elif feedBack.rating < 3 %}
+        <div class="mx-1 mt-1" style="font-size: 11px;">
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+        </div>
+
+        {% elif feedBack.rating < 4 %}
+        <div class="mx-1 mt-1" style="font-size: 11px;">
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star text-muted"></i>
+          <i class="fa fa-star text-muted"></i>
+        </div>
+
+        {% elif feedBack.rating < 5 %}
+        <div class="mx-1 mt-1" style="font-size: 11px;">
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star text-muted"></i>
+        </div>
+
+        {% else %}
+        <div class="mx-1 mt-1" style="font-size: 11px;">
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+          <i class="fa fa-star star_color"></i>
+        </div>
+
+        {% endif %}
+
+        <div><span class="badge" style="background-color: black; color:white; font-size: 11px;">{{feedBack.rating}}<i class="fa fa-star"></i></span></div>
+      </div>
+    </div>
+
+    {% include 'feedBackUpdate.html' %}
+    <script>
+      $(function () {
+        $('.update_feedback_btn{{feedBack.pk}}').click(function(){
+          $('.feed_back_update_form{{feedBack.pk}}').toggle('slow');
+        })
+      }); 
+    </script>
+
+  {% endfor %}
+
+
+  </div>
+
+
+  

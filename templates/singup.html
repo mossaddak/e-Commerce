@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="h-100 pt-5 pb-5">
+    <div class="container h-100">
+        <div class="row justify-content-sm-center h-100 mt-4">
+            <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-7 col-sm-9 mt-5">
+                <div class="card shadow-lg montserrat_alternates_font">
+                    <div class="card-body p-5">
+                        <h1 class="fs-4 card-title fw-bold mb-4 poppins_font">Register</h1>
+
+                        <!-- sing up form -->
+                        <form action="" method="POST" class="needs-validation poppins_font" style="font-size: 13px;" novalidate=""autocomplete="off">
+                            {% csrf_token %}
+
+                            <!-- first name -->
+                            <!--
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="first_name">First Name</label>
+                                <input id="first_name" type="text" style="font-size: 13px;" class="form-control" name="name" value="" required autofocus>
+                                <div class="invalid-feedback">
+                                    First name is required
+                                </div>
+                            </div>
+                            -->
+
+
+                            <!-- last name -->
+                            <!--
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="lname">Last Name</label>
+                                <input id="lname" style="font-size: 13px;" type="text" class="form-control" name="name" value="" required autofocus>
+                                <div class="invalid-feedback">
+                                    Last name is required
+                                </div>
+                            </div>
+                            -->
+
+
+                            <!-- user name -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="username">Username</label>
+                                <input id="username" style="font-size: 13px; text-transform: lowercase;" type="text" class="form-control" name="username" value="" required>
+                                <div class="invalid-feedback">
+                                    Username is invalid
+                                </div>
+                                
+                                <!-- error message -->
+                                <div class="py-1 text-danger errors">{{ form.username.errors }}</div>
+                            </div>
+
+
+                            <!-- first name -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="first_name">First Name</label>
+                                <input id="first_name" type="text" class="form-control" name="first_name" value="" required>
+                                <div class="invalid-feedback">
+                                    Username is invalid
+                                </div>
+                                
+                                <!-- error message -->
+                                <div class="py-1 text-danger errors">{{ form.first_name.errors }}</div>
+                            </div>
+
+
+                            <!-- last name -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="last_name">Last Name</label>
+                                <input id="last_name" type="text" class="form-control" name="last_name" value="" required>
+                                <div class="invalid-feedback">
+                                    Username is invalid
+                                </div>
+                                
+                                <!-- error message -->
+                                <div class="py-1 text-danger errors">{{ form.last_name.errors }}</div>
+                            </div>
+
+
+                            <!-- email -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="email">E-Mail Address</label>
+                                <input id="email" style="font-size: 13px; text-transform: lowercase;" type="email" class="form-control" name="email" value=""  required>
+                                <div class="invalid-feedback">
+                                    Email is invalid
+                                </div>
+
+                                <!-- error message -->
+                                <div class="py-1 text-danger errors">{{ form.email.errors }}</div>
+                            </div>
+
+
+                            
+
+                            <!-- phone numebr -->
+
+                            <!--
+                            <style>
+                                .phone_number_container input::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button {
+                                    opacity: 0;  
+                                }
+                            </style>
+                            <div class="mb-3 phone_number_container">
+                                <label class="mb-2 text-muted" for="phone_number">Phone Number</label>
+                                <input id="phone_number" style="font-size: 13px;" type="number" class="form-control" name="phone_number"
+                                    value="" required>
+                                <div class="invalid-feedback">
+                                    Phone number is invalid
+                                </div>
+                            </div>
+
+                            -->
+
+
+
+                            <!-- password -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="password">Password</label>
+                                <input id="password" style="font-size: 13px;" type="password" class="form-control"
+                                    name="password" required>
+                                <div class="invalid-feedback">
+                                    Password is required
+                                </div>
+
+                                <!-- error message -->
+                                <div class="py-1 text-danger errors">{{ form.password.errors }}</div>
+                            </div>
+
+                            <!--confirm password -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="confirm_password">Confirm Password</label>
+                                <input id="confirm_password" style="font-size: 13px;" type="password" class="form-control" name="confirm_password" required>
+                                <div class="invalid-feedback">
+                                    Confirm password is required
+                                </div>
+
+                                <!-- error message -->
+                                <div class="py-1 text-danger errors">{{ form.password.errors }}</div>
+                            </div>
+
+                            <!-- -->
+                            <p class="form-text text-muted mb-3" style="font-size: 14px;">
+                                By registering you agree with our terms and condition.
+                            </p>
+
+                            <!-- account type -->
+                            <div class="d-flex align-items-center">
+
+
+
+                                <!----- buyer and seller checkbox ----->
+                                <!--
+                                <div class="form-check">
+                                    <input type="radio" checked name="account_type" id="buyer" class="form-check-input">
+                                    <label for="buyer" class="form-check-label">Buyer</label>
+                                </div>
+                                
+                                
+                                <div class="form-check mx-2">
+                                    <input type="radio" name="account_type" id="remember" class="form-check-input">
+                                    <label for="remember" class="form-check-label">Seller</label>
+                                </div>
+                                -->
+
+                                <!-- login button -->
+                                <button type="submit" class="btn btn-outline-dark ms-auto" style="font-size: 12px;">
+                                    Create
+                                </button>
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                    <div class="card-footer py-3 border-0">
+                        <div class="text-center" style="font-size: 13px;">
+                            Already have an account? <a href="{% url 'login_user' %}" class="text-dark"
+                                style="font-size: 13px !important;">Login</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}

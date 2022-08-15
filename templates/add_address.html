@@ -1,0 +1,64 @@
+
+<!-- Modal -->
+<div class="modal fade" id="AddressModal" tabindex="-1" aria-labelledby="AddressModal" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+
+
+    <!-- modal header -->
+    <div class="modal-header modal_header">
+        <h5 class="modal-title text-white poppins_font" style="font-size: 17px; font-weight:400;" id="exampleModalLabel">Add your address</h5>
+        <!-- modal cross -->
+        <button type="button" class=" modal_cross_btn" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-octagon-fill"></i></button>
+    </div>
+
+
+        <div class="modal-body">
+            
+            <form action="{% url 'Adress' %}" method="POST" class="needs-validation" autocomplete="off">
+                {% csrf_token %} 
+
+                <!-- home -->
+                <div class="mb-1">
+                    <label class="mb-2 text-muted" style="font-size: 13px;" for="home">House name</label>
+                    <input id="home" style="font-size: 13px;" type="text" class="form-control" name="home" value="" required>
+                </div>
+
+                <!-- area -->
+                <div class="mb-1">
+                    <label class="mb-2 text-muted" style="font-size: 13px;" for="area">Area</label>
+                    <input id="area" style="font-size: 13px;" type="text" class="form-control" name="area" value="" required>
+                </div>
+
+                <!-- post office -->
+                <div class="mb-1">
+                    <label class="mb-2 text-muted" style="font-size: 13px;" for="PostOffice">Post Office</label>
+                    <input id="PostOffice" style="font-size: 13px;" type="text" class="form-control" name="PostOffice" value="" required>
+                </div>
+
+                <!-- Upzilla -->
+                <div class="mb-1">
+                    <label class="mb-2 text-muted" style="font-size: 13px;" for="upzilla">Upzilla</label>
+                    <input id="upzilla" style="font-size: 13px;" type="text" class="form-control" name="upzilla" value="" required>
+                </div>
+
+                <!-- zilla -->
+                <div class="mb-3">
+                    <label class="mb-2 text-muted" style="font-size: 13px;" for="zilla">Zilla</label>
+                    <input id="zilla" style="font-size: 13px;" type="text" class="form-control" name="zilla" value="" required>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-dark">Add</button>
+                </div>
+            </form>
+
+
+            
+
+        </div>
+    
+    </div>
+</div>
+</div>

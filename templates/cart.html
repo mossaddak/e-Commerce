@@ -1,0 +1,132 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+
+
+            <!-- modal header -->
+            <div class="modal-header modal_header">
+                <h5 class="modal-title text-white poppins_font" style="font-size: 17px; font-weight:400;" id="exampleModalLabel">Shopping Cart</h5>
+                <!-- modal cross -->
+                <button type="button" class=" modal_cross_btn" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-octagon-fill"></i></button>
+            </div>
+
+
+            <div class="modal-body" style="background-color: #ECF0F1;">
+                {% if user.account_type %}
+                Please go to buyer mode.
+                {% else %}
+
+                {% for ShoppingCart in request.user.UserShoppingCartRelatedName.all %}
+                <div class="container-fluid rounded py-2 my-2 mouse_moving{{ShoppingCart.Product.id}}" style="background-color: white;">
+                    
+                    <!-- title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 style="font-size: 14px; font-weight:700; line-height: 0.1;" class="mt-2">{{ShoppingCart.Product.product_title}}</h1>
+
+                            <div class="row">
+
+                                <div class="col-9">
+                                    <!-- price -->
+                                    {% if ShoppingCart.Product.offer_price %}
+                                    <small style="font-size: 13px;" class="d-block">Price: ৳<span class="PriceLabel{{ShoppingCart.Product.id}}">{{ShoppingCart.Product.offer_price}}</span></small>
+                                    {% else %}
+                                    <small style="font-size: 13px;" class="d-block">Price: ৳<span class="PriceLabel{{ShoppingCart.Product.id}}">{{ShoppingCart.Product.product_price}}</span></small>
+                                    {% endif %}
+
+                                    <!-- stock status -->
+                                    {% if ShoppingCart.Product.total_stock %}
+                                    <small style="color: green; font-size: 13px; line-height: 0.1;" class="d-block mt-2 poppins_font"><span class="ProductStock{{ShoppingCart.Product.id}}">{{ShoppingCart.Product.total_stock}}</span> left</small>
+                                    {% else %}
+                                    <small style="color: red; font-size: 13px; line-height: 0.1;" class="d-block mt-2 poppins_font">stock out</small>
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-3">
+                                    <a href="{% url 'DeleteCartItem' id=ShoppingCart.id %}" class="text-start btn"><i class="bi bi-trash-fill"></i></a>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    <hr>
+
+                    <!-- body -->
+                    <div class="row">
+                        <div class="col-3">
+                            <img src="{{ShoppingCart.Product.product_image.url}}" class="rounded order_image" alt="cart image">
+                        </div>
+
+                        <div class=" ms-1 col-8 bg-">
+
+                            <!-- quantity -->
+                            <div class="btn-group ms-5">
+                                <style>
+                                    input[type=number]::-webkit-inner-spin-button, 
+                                    input[type=number]::-webkit-outer-spin-button {  
+
+                                        opacity: 1;
+
+                                    }
+                                  </style>
+                                
+                                <input type="number" class="btn border text-center number_button poppins_font QuantityInput{{ShoppingCart.Product.id}} py-1 px-2" min="1" {% if ShoppingCart.Product.total_stock > 5 %} max="5" {% else %} max="{{ShoppingCart.Product.total_stock}}" {% endif %} value="1" style="font-size: small; background-color: #F3F3F3;">
+                                
+                            </div>
+
+                              <!-- actions -->
+                            <div class="col-3 col-lg-2 d-flex col-9 ms-5">
+                                <a href="{% url 'quick_view' quick_view_id=ShoppingCart.Product.id %}" class="view_and_buy_btn d-block my-2 py-1 px-2 btn">VIEW</a>
+
+                                {% if ShoppingCart.Product.total_stock %}
+                                <a href="{% url 'Order' quick_view_id=ShoppingCart.Product.id %}" class="view_and_buy_btn d-block my-2 mx-1 py-1 px-2 btn">BUY</a>
+                                {% else %}
+                                <a href="#!" class="view_and_buy_btn d-block my-2 mx-1 py-1 px-2 btn disabled">BUY</a>
+                                {% endif %}
+                            </div>
+
+                        
+               
+
+
+
+                            <script>
+                    
+                                document.querySelector(".mouse_moving{{ShoppingCart.Product.id}}").addEventListener("mousemove", function(){
+            
+                                    QtyInput = document.querySelector(".QuantityInput{{ShoppingCart.Product.id}}");
+                                    TotalStock = parseInt("{{ShoppingCart.Product.total_stock}}");
+                                    PriceLabel = document.querySelector(".PriceLabel{{ShoppingCart.Product.id}}");
+            
+                                    if(5<TotalStock && 5<QtyInput.value){
+                                        QtyInput.value=5;
+                                        
+                                    }
+            
+                                    if(QtyInput.value>TotalStock){
+                                        QtyInput.value=TotalStock;
+                                    }
+                                    PriceLabel.innerHTML = QtyInput.value*parseInt("{% if ShoppingCart.Product.offer_price %}{{ShoppingCart.Product.offer_price}}{% else %}{{ShoppingCart.Product.product_price}}{% endif %}");
+                                    
+                                });
+            
+                                document.querySelector(".mouse_moving{{ShoppingCart.Product.id}}").addEventListener("click", function(){
+                                    PriceLabel.innerHTML = QtyInput.value*parseInt("{% if ShoppingCart.Product.offer_price %}{{ShoppingCart.Product.offer_price}}{% else %}{{ShoppingCart.Product.product_price}}{% endif %}");
+                                });
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

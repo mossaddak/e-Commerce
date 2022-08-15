@@ -1,0 +1,29 @@
+<!-- sorry Section-->
+{% load static %}
+
+<section class="py-4 py-lg-5 container">
+    <div class="">
+        <h4 class="text-start montserrat_alternates_font badge bg-dark" style="font-size: 15px;">
+            <small> You entered wrong <span style="text-transform: uppercase;">URL</span></small>
+        </h4>
+    </div><hr>
+
+    <style>
+        .sorry_img_container img{
+            height: 400px;
+        }
+
+        @media screen and (max-width:770px) {
+            .sorry_img_container img{
+                height: 300px;
+            }
+            
+        }
+    </style>
+
+    <div class=" d-flex justify-content-center justify-item-center py-5 sorry_img_container">
+        <img src="{% static 'images/3_sorry.png' %}">
+    </div>
+
+
+</section>

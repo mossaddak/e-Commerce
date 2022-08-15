@@ -1,0 +1,196 @@
+{% load static %}
+<nav class="navbar py-3 navbar-expand-lg fixed-top bg_black montserrat_alternates_font" id="nav_bg">
+    <div class="container-fluid px-5 px-md-5 px-lg-5">
+
+        <style>
+            .navbar-brand img {
+                width: 150px;
+            }
+            @media screen and (max-width:770px) {
+                .navbar-brand img {
+                    width: 140px;
+                }
+                
+            }
+
+            @media screen and (max-width:653px) {
+                .navbar-brand img {
+                    width: 100px;
+                }
+                
+            }
+
+        </style>
+
+        <!-- logo -->
+        <a class="navbar-brand" href="/"><img src="{% static 'images/2_Logo/logo.png' %}"></a>
+
+
+
+      
+        <!-- manu bar -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class=" rounded"> <i class="bi bi-menu-button-wide-fill text-white bg-dark btn" id="manu_bar_color"></i></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+
+                <!-- home -->
+                <li class="nav-item"><a class="nav-link active text-white" id="home_link" aria-current="page"  href="/">Home</a></li>
+
+                <!-- about -->
+
+                <!-- category dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white shop_linked" id="navbarDropdown" href="#"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">Category</a>
+
+                    <ul class="dropdown-menu" style="font-size: 12px !important; font-weight:700; text-transform: uppercase;"
+                        aria-labelledby="navbarDropdown">
+
+
+                        <!-- categories -->
+                        {% for category in categories %}
+                        <li><a class="dropdown-item text-black" href="{% url 'category_items' category_id=category.id %}">{{category.title}}</a></li>
+
+                        <li>
+                            <hr class="dropdown-divider text-black" />
+                        </li>
+                        {% endfor %}
+
+                        <li><a class="dropdown-item text-black" href="{% url 'all_products' %}">All Products</a></li>
+
+
+                        
+                    </ul>
+
+                </li>
+
+                
+                <!-- notification -->
+                {% if user.is_authenticated %}
+                <li class="nav-item me-auto">
+                    <a href="{% url 'user_notifications' %}" class="nav-link active text-white position-relative" id="tracking_link">
+                        Notification
+                        {% if unseen > 0 %}
+                        <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style="font-size: 12px;">{{ unseen }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item me-auto">
+                    <a href="#!" class="nav-link active text-white position-relative" data-bs-toggle="modal" data-bs-target="#LoginAlertModal" id="tracking_link">
+                        Notification
+                    </a>
+                </li>
+                {% endif %}
+
+                
+
+
+                <!-- login-logout dropdown-->
+                <li class="nav-item dropdown">
+
+                    {% if request.user.is_authenticated %}
+                    <a class="nav-link dropdown-toggle text-white account_linked" id="accountDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{request.user.first_name}}</a>
+
+                    <ul class="dropdown-menu" style="font-size: 12px !important; font-weight:700; text-transform: uppercase;"
+                        aria-labelledby="accountDropdown">
+
+                        <li><a class="dropdown-item text-black" href="{% url 'user_profile' %}">Profile</a></li>
+
+                        <li>
+                            <hr class="dropdown-divider text-black" />
+                        </li>
+
+                        {% if user.account_type == None %}
+
+                        <!-- order list -->
+                        <li><a class="dropdown-item text-black" href="{% url 'OrderList' %}">Order List</a></li>
+                        <li>
+                            <hr class="dropdown-divider text-black" />
+                        </li>
+
+                        <!-- order tracking -->
+                        <li><a class="dropdown-item text-black" href="#!" data-bs-toggle="modal" data-bs-target="#TrackingModal">Order Tracking</a></li>
+                        <li>
+                            <hr class="dropdown-divider text-black" />
+                        </li>
+
+                        {% endif %}
+
+                        <!-- logout -->
+                        <li><a class="dropdown-item text-black" href="{% url 'logout_user' %}">Logout</a></li>
+                    </ul>
+                    {% else %}
+                    <a class="nav-link dropdown-toggle text-white account_linked" id="accountDropdown" href="#"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">Sing In/Up</a>
+
+                    <ul class="dropdown-menu" style="font-size: 12px !important; font-weight:700; text-transform: uppercase;"
+                        aria-labelledby="accountDropdown">
+
+                        <!-- login -->
+                        <li><a class="dropdown-item text-black" href="{% url 'login_user' %}">Login</a></li>
+
+                        <li>
+                            <hr class="dropdown-divider text-black" />
+                        </li>
+                        <li><a class="dropdown-item text-black" href="{% url 'singup' %}">Sing Up</a></li>
+                    </ul>
+
+                    {% endif %}
+
+                </li>
+
+                <!-- login -->
+                <!--
+                <li class="nav-item"><a class="nav-link active text-white" id="login_link" aria-current="page"
+                        href="#!">Login</a></li>-->
+
+                <!-- login -->
+                <!--
+                <li class="nav-item"><a class="nav-link active text-white" id="singUP_link" aria-current="page"
+                        href="#!">Sing Up</a></li>-->
+
+                
+                <!-- search bar -->
+                <form action="{% url 'search_products' %}" method="GET" class="btn-group row ms-0 ms-lg-2">
+                    <input type="search" class="btn text-start text-white col-10 montserrat_alternates_font" required style="font-size: 14px;" id="search_text" name="search"
+                        placeholder="search product">
+                    <button class="btn col-2"><img src="{% static 'images/2_search_icon.png' %}"></button>
+                </form>
+
+            </ul>
+
+            <!-- product cart -->
+
+            {% if user.is_authenticated %}
+            <div class="d-flex">
+                <button class="btn btn-outline-dark nav_cart_btn" id="nav_cart_btn" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal" type="button">
+                    <i class="bi-cart-fill me-1"></i>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill nav_cart_badge"
+                        id="nav_cart_badge">{{request.user.UserShoppingCartRelatedName.all.count}}</span>
+                </button>
+            </div>
+            {% else %}
+
+            <div class="d-flex">
+                <button class="btn btn-outline-dark nav_cart_btn" id="nav_cart_btn" data-bs-toggle="modal" data-bs-target="#LoginAlertModal" type="button">
+                    <i class="bi-cart-fill me-1"></i>
+                    <span class="badge bg-dark text-white ms-1 rounded-pill nav_cart_badge"id="nav_cart_badge">0</span>
+                </button>
+            </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+    </div>
+</nav>

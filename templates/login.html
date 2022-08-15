@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Login {% endblock %}
+
+{% block link %}
+{% endblock %}
+
+
+
+
+{% block content %}
+
+<section class="h-100 pt-5 pb-5 mt-4 poppins_font">
+    <div class="container h-100">
+        <div class="row justify-content-sm-center h-100 mt-5">
+
+            <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-7 col-sm-9">
+
+
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        {% for message in messages %}
+
+                        {% include 'message.html' %}
+
+                        {% endfor %}
+
+                        <!-- login heading -->
+                        <h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
+                    
+
+
+                        <!-- login form -->
+                        <form action="#!" method="POST" class="needs-validation" style="font-size: 13px;" novalidate="" autocomplete="off">
+                            {% csrf_token %}
+
+                            <!-- user name -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="username">Username</label>
+                                <input id="username" style="font-size: 13px; text-transform: lowercase;" type="text" class="form-control" name="username" value="" required>
+                                <div class="invalid-feedback">
+                                    Username is invalid
+                                </div>
+                                
+                                <!-- error message -->
+                                <div class="py-1 text-danger errors">{{ form.username.errors }}</div>
+                            </div>
+
+                            <!-- password -->
+                            <div class="mb-3">
+                                <div class="mb-2 w-100">
+                                    <label class="text-muted" for="password">Password</label>
+                                    <a href="{% url 'forgot_password' %}" style="font-size: 13px;" class="float-end">
+                                        Forgot Password?
+                                    </a>
+                                </div>
+                                <input id="password" style="font-size: 13px;" type="password" class="form-control" name="password" required>
+                                <div class="invalid-feedback">
+                                    Password is required
+                                </div>
+
+                                <!-- error message -->
+                                <div class="py-1 text-danger errors">{{ form.password.errors }}</div>
+                            </div>
+
+                            <!-- remember me -->
+                            <div class="d-flex align-items-center">
+                                <div class="form-check">
+                                    <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                                    <label for="remember" class="form-check-label">Remember Me</label>
+                                </div>
+
+                                <!-- login button -->
+                                <button type="submit" class="btn btn-outline-dark ms-auto" style="font-size: 13px;">
+                                    Login
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="card-footer py-3 border-0">
+                        <div class="text-center" style="font-size: 13px;">
+                            Don't have an account? <a href="{% url 'singup' %}" class="text-dark">Create One</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+

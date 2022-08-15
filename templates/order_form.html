@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Order {% endblock %}
+{% block link %}
+{% endblock %}
+
+
+
+
+{% block content %}
+<section class="h-100 pt-5 pb-5 mt-4 poppins_font">
+    {% if user.account_type == None %}
+    <div class="container h-100">
+        <div class="row justify-content-sm-center h-100 mt-5">
+
+            <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-7 col-sm-9">
+
+
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <!-- heading -->
+                        <h1 class="fs-4 card-title fw-bold mb-4" style="line-height:.1;">{{OrderProduct.product_title}}</h1>
+                        <hr>
+
+                        {% if messages %}
+                        {% include 'message.html' %}
+                        {% endif %}
+                        <div class="d-flex justify-content-center">
+                            <img class="change_image" src="{{OrderProduct.product_image.url}}" style="height: 250px;" alt="product photo">
+                        </div>
+                    
+                        <style>
+                        </style>
+
+                        <!-- product add form -->
+                        <form action="" method="POST" class="needs-validation" style="font-size: 13px;" novalidate="" autocomplete="off" enctype="multipart/form-data">
+
+                            
+                            {% csrf_token %}
+
+                            <!-- first name -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="CustomerName">Customer Name</label>
+                                <input id="CustomerName" type="text" style="font-size: 13px;" class="form-control" name="CustomerName" value="{{request.user.first_name}} {{request.user.last_name}}" required>
+                            </div>
+
+                            <!-- product title -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="product_title">Product Title</label>
+                                <input readonly id="product_title" type="text" style="font-size: 13px;" class="form-control" name="product_title" value="{{OrderProduct.product_title}}" required>
+                            </div>
+
+                            <!-- product price -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="product_price">Product Price</label>
+                                {% if OrderProduct.offer_price != None %}
+                                <input readonly id="product_price" type="text" style="font-size: 13px;" class="form-control PriceLabel" name="product_price" value="{{OrderProduct.offer_price}}" required>
+                                {% else %}
+                                <input readonly id="product_price" type="text" style="font-size: 13px;" class="form-control PriceLabel" name="product_price" value="{{OrderProduct.product_price}}" required>
+                                {% endif %}
+                            </div>
+
+
+                            <!-- shipping cost -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="ShippingCost">Shipping Cost</label>
+                                <input readonly id="ShippingCost" type="text" style="font-size: 13px;" class="form-control" name="ShippingCost" value="50" required>
+                            </div>
+
+                            <!-- total cost -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="TotalCost">Total Cost</label>
+
+                                {% if OrderProduct.offer_price != None %}
+                                <input readonly id="TotalCost" type="text" style="font-size: 13px;" class="form-control TotalCostInput" name="TotalCost" value="{{OrderProduct.offer_price}}" required>
+                                {% else %}
+                                <input readonly id="TotalCost" type="text" style="font-size: 13px;" class="form-control TotalCostInput" name="TotalCost" value="{{OrderProduct.product_price}}" required>
+                                {% endif %}
+                                
+                            </div>
+
+                            
+
+                            <!-- product quantity start -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="quantity_show">
+                                    Product Quantity
+
+                                    {% if OrderProduct.total_stock == None %}
+                                    <small class="text-white badge bg-danger" style="font-size: 10px;">Out of stock</small>
+                                    {% else %}
+                                    <small class="text-white badge bg-success">{{OrderProduct.total_stock}} left</small>
+                                    {% endif %}
+                                </label>
+
+                                <div class="d-flex">
+                                    <input readonly id="quantity_show" style="font-size: 13px;" type="text" class="form-control QuantityInput" name="product_quantity" value=""  required>
+                                    <div class="btn-group mx-1">
+                                        <style>
+                                            .increament_decreament_btn:hover{
+                                                color: white !important;
+                                            }
+                                        </style>
+                                        <button class="btn increament_decreament_btn quantitity_decrease_btn" type="button">-</button>
+                                        <button class="btn increament_decreament_btn quantitity_increase_btn" type="button">+</button>
+                                    </div>
+                                </div>
+                               
+                                <script>
+                                    document.getElementById("quantity_show").value=localStorage.getItem("quantity_store");
+                                </script>
+                            </div>
+
+                            
+                            <!-- product quantity END -->
+
+
+                            <!-- email -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="email">E-Mail Address</label>
+                                <input id="email" style="font-size: 13px; text-transform: lowercase;" type="email" class="form-control" name="email" value="{{request.user.email}}"  required>
+                            </div>
+
+                            <!-- phone number -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="PhoneNumber">Phone Number</label>
+                                <input id="PhoneNumber" style="font-size: 13px;" type="text" class="form-control" name="phone" value="{{request.user.phone_number}}"  required>
+                            </div>
+
+                            <!-- thana post code -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="ThanaPostCode">Thana Post Code</label>
+                                <input id="ThanaPostCode" style="font-size: 13px;" type="text" class="form-control" name="ThanaPostCode" required>
+                            </div>
+
+                            <!-- full address -->
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="FulllAdress">Full Address</label>
+                                <textarea id="FulllAdress" style="font-size: 13px;" class="form-control" placeholder="Area/Village, Subdistrict, District, Country..."rows="6" name="FulllAdress" required></textarea>
+                            </div>
+
+
+                            
+                            <!-- order button -->
+                            {% if OrderProduct.total_stock == None %}
+                            <p style="color:red;font-size:11px;">Due to the out of stock you can't order.</p>
+                            <div class="d-flex align-items-center">
+                                <button type="submit" class="btn btn-outline-dark ms-auto disabled" style="font-size: 13px;">
+                                    Order
+                                </button>
+                            </div>
+
+
+                            {% else %}
+                            <div class="d-flex align-items-center">
+                                <button type="submit" class="btn btn-outline-dark ms-auto" style="font-size: 13px;">
+                                    Order
+                                </button>
+                            </div>
+                            {% endif %}
+                                
+
+                        </form>
+                    </div>
+
+
+                    <!--
+                    <div class="card-footer py-3 border-0">
+                        <div class="text-center" style="font-size: 13px;">
+                            Don't have an account? <a href="{% url 'singup' %}" class="text-dark">Create One</a>
+                        </div>
+                    </div>
+                    -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let btnSubtract=document.querySelector(".quantitity_increase_btn");
+        let QuantityInput = document.querySelector(".QuantityInput");
+        let btnAdd=document.querySelector(".quantitity_decrease_btn");
+        var PriceLabel = document.querySelector(".PriceLabel");
+        var TotalCostInput = document.querySelector(".TotalCostInput");
+
+        var StockItem = parseInt("{{OrderProduct.total_stock}}")
+
+        btnSubtract.addEventListener("click",()=>{
+            
+            if(QuantityInput.value<5){
+                if(QuantityInput.value<parseInt(StockItem)){
+                    quantity = QuantityInput.value=parseInt(QuantityInput.value)+1;
+                    PriceLabel.value = quantity*parseInt("{% if OrderProduct.offer_price %}{{OrderProduct.offer_price}}{% else %}{{OrderProduct.product_price}}{% endif %}");
+                    TotalCostInput.value = parseInt(PriceLabel.value)+50;
+                }
+                
+            }
+            
+        });
+
+        btnAdd.addEventListener("click",()=>{
+
+            if(QuantityInput.value>1){
+                quantity = QuantityInput.value=parseInt(QuantityInput.value)-1;
+                PriceLabel.value = quantity*parseInt("{% if OrderProduct.offer_price %}{{OrderProduct.offer_price}}{% else %}{{OrderProduct.product_price}}{% endif %}");
+                TotalCostInput.value = parseInt(PriceLabel.value)+50;
+            }
+            
+        });
+    </script>
+    {% else %}
+    {% include 'sorryURL.html' %}
+    {% endif %}
+</section>
+
+{% endblock %}
+

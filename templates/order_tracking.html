@@ -1,0 +1,37 @@
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="TrackingModal" tabindex="-1" aria-labelledby="TrackingModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+
+        <!-- modal header -->
+        <div class="modal-header modal_header">
+            <h5 class="modal-title text-white poppins_font" style="font-size: 17px; font-weight:400;" id="exampleModalLabel">Track Your Order</h5>
+
+            <!-- modal cross -->
+            <button type="button" class=" modal_cross_btn" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-octagon-fill"></i></button>
+        </div>
+
+
+        <!-- modal body -->
+        <div class="modal-body">
+
+            <form action="{% url 'OrderTracking' %}" method="GET" class="needs-validation">
+              {% csrf_token %}
+
+                <div class="mb-3">
+                    <div class="mb-2 w-100">
+                        <label class="text-muted" for="orderTracking">Leave your order Id</label>
+                    </div>
+                    <input id="orderTracking" style="font-size: 13px;" type="search" class="form-control" name="orderTracking" required>
+                </div>
+                <button type="submit" class="btn text-white bg-dark">Track</button>
+            </form>
+        </div>
+  
+
+      </div>
+    </div>
+  </div>

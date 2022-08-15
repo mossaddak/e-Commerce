@@ -1,0 +1,29 @@
+<!-- Modal -->
+<style>
+    .login_alert{
+        margin: 15% auto !important; 
+    }
+</style>
+
+<div class="modal fade login_alert" id="LoginAlertModal" tabindex="-1" aria-labelledby="LoginAlertModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+
+        <div class="modal-header bg-alert">
+          <h5 class="modal-title poppins_font" id="LoginAlertModal">Alert</h5>
+          <span class="btn" ><i class="bi bi-exclamation-triangle-fill"></i></span>
+        </div>
+
+        <div class="modal-body poppins_font">
+          Please log into your account.
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger poppins_font" style="font-size: 14px;" data-bs-dismiss="modal">Letter</button>
+            <a href="{% url 'login_user' %}" class="btn btn-success poppins_font" style="font-size: 14px;">Login</a>
+        </div>
+
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} All products {% endblock %}
+
+{% block content %}
+<style>
+    .pagination_container a{
+        border: none !important;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+</style>
+<section class="py-5">
+
+    <div class="container mt-5 ">
+        <h4 class="text-start montserrat_alternates_font badge bg-dark" style="font-size: 15px;">All products
+            <small>({{total_products}})</small>
+        </h4>
+        <hr>
+
+        <div class="row mt-5  ">
+
+            <!--- product card --->
+            {% for products in products %}
+            
+            {% include 'product_card.html' %}
+
+            {% endfor %}
+
+
+            <div class="col-12">
+                {% include "pagination.html" %}
+            </div>   
+
+
+        </div>
+         
+        
+    </div>
+
+</section>
+{% endblock %}

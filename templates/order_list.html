@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Order List {% endblock %}
+{% block link %}
+{% endblock %}
+
+
+
+
+{% block content %}
+{% if UserTotalOrder < 3 %}
+<style>
+    body{
+        height: 100vh;
+    }
+</style>
+{% endif %}
+
+
+
+<section class="h-100 pt-5 pb-5 mt-4 poppins_font" style=" height: 100vh;">
+
+    {% if user.account_type == None %}
+    <div class="container">
+        <div class="d-flex order_list_button_container mt-4">
+            <div><button autofocus class="AllOrderBtn orderListBtn mx-1 btn" style="font-size: 15px !important;">All</button></div>
+            <div><button class="AllOrderBtn DeliverdOrderBtn mx-1 orderListBtn btn" style="font-size: 15px !important;">Delivered</button></div>
+            <div><button class="AllOrderBtn CanceledOrderListBtn orderListBtn mx-1 btn" style="font-size: 15px !important;">Cancelled</button></div>
+        </div>
+        <hr>
+
+
+        <!-- message -->
+        {% if messages %}
+        {% include 'message.html' %}
+        {% endif %}
+
+
+        <!-- all order list -->
+        <div class="AllOrderList">
+            {% for order in UserAllOrder %}
+            <div class="container-fluid my-2">
+
+                <div class="p-3" style="background-color: white;">
+                    <div class="row">
+
+                        <div style="font-size: 13px !important;" class="col-9 col-md-11 col-lg-11">
+                            <label class="d-block"><b>Order Id:</b> {{order.pk}}</label>
+                            <label class="d-block">Placed on {{order.createdDate}}</label>
+                        </div>
+
+                        <!-- delete btn -->
+                        {% if order.OrderStatus == None %}
+                        <div class="col-3 col-md-1 col-lg-1"><a href="#!" data-bs-toggle="modal" data-bs-target="#exampleModal{{order.pk}}" class="btn btn-dark px-2" style="font-size: 11px;"><i class="bi bi-trash"></i></a></div>
+                        {% endif %}
+                    </div>
+
+                    <!--Delete product Modal -->
+                    <div class="modal fade" id="exampleModal{{order.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+
+                            <style>
+                                .delete_modal{
+                                    margin-top: 50%;
+                                }
+                            </style>
+
+                            <div class="modal-content delete_modal">
+                                <div class="modal-body poppins_font" style="font-size: 16px;">
+                                    Are you sure?
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{% url 'DeleteOrder' id=order.id %}" style="font-size: 13px;" type="button" class="btn btn-success poppins_font">Yes</a>
+                                    <button type="button" class="btn btn-danger poppins_font" style="font-size: 13px;" data-bs-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    <div class="row">
+                        <div class="col-6 col-lg-2">
+                            {% if order.img %}
+                            <img style="width: 100px;" src="{{order.img.url}}">
+                            {% endif %}
+                        </div>
+                        <style>
+                            .product_title{
+                                text-decoration: none;
+                                color: black !important;
+                            }
+                            .product_title:hover{
+                                color: rgb(166, 166, 166) !important;
+                            }
+                        </style>
+
+                        <div class="col-6 col-lg-6"><a href="{% url 'quick_view' quick_view_id=order.Product.id %}" class="product_title">{{order.ProductTitle}}</a></div>
+                        
+                        <div class="col-6 col-lg-2 mt-2">Qty:{{order.Quantity}}</div>
+
+                        {% if order.OrderStatus != None and order.OrderStatus != 'Canceled' %}
+                        <div class="col-6 col-lg-2 mt-2"><span class="badge bg-success text-white" >{{ order.OrderStatus }}</span></div>
+
+                        {% elif order.OrderStatus == 'Canceled' %}
+                        <div class="col-6 col-lg-2 mt-2"><span class="badge bg-danger text-white" >{{ order.OrderStatus }}</span></div>
+
+                        {% else %}
+                        <div class="col-6 col-lg-2 mt-2"><span class="badge bg-warning text-black" >Wait</span></div>
+                        {% endif %}
+
+                    </div>
+                    
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+        
+
+        <!-- deliver order list -->
+        <div class="DeliverdOrderList">
+            {% include 'delivered_order.html' %}
+        </div>
+
+
+        <!-- canceled order list -->
+        <div class="CancelledOrderList">
+            {% include 'cancelled_order.html' %}
+        </div>
+
+
+
+    </div>
+
+    
+    {% else %}
+    {% include 'sorryURL.html' %}
+    {% endif %}
+
+
+</section>
+
+{% endblock %}
+

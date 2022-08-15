@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{category.title}} {% endblock %}
+
+{% block content %}
+<style>
+    .pagination_container a{
+        border: none !important;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+</style>
+<section class="py-5">
+
+    <div class="container mt-5 ">
+        <h4 class="text-start montserrat_alternates_font badge bg-dark" style="font-size: 15px;">{{category.title}}
+            <small>({{category.categoty_related_name.all.count}})</small>
+        </h4>
+        <hr>
+
+        <div class="row mt-5  ">
+
+
+            <!--- product card --->
+            {% for category_products in products %}
+            
+            <div class="col-6 col-md-3 col-lg-2 mb-5">
+                <div class="card h-100">
+
+                    <!-- Sale badge-->
+                    {% if category_products.offer_price != None %}
+
+                    {% if category_products.offer_price != 0 %}
+                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+                        SALE
+                    </div>
+                    {% endif %}
+
+
+                    {% endif %}
+
+                    <!-- Product image-->
+                    <img class="card-img-top product_image" src="{{category_products.product_image.url}}" alt="..." />
+                    <!-- Product details-->
+                    <div class="card-body ">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder product_title" style="">{{category_products.product_title}}</h5>
+                            <!-- Product reviews-->
+
+
+                            {% if category_products.AverageRating < 1 %}
+                            <div class="d-flex justify-content-center small text-warning mb-2">
+                                <div class="bi-star"></div>
+                                <div class="bi-star"></div>  
+                                <div class="bi-star"></div>
+                                <div class="bi-star"></div>
+                                <div class="bi-star"></div>
+                                <span style="color: black;">({{category_products.countReview}})</span>
+                            </div>
+
+                            {% elif category_products.AverageRating < 2 %}
+                            <div class="d-flex justify-content-center small text-warning mb-2">
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star"></div>  
+                                <div class="bi-star"></div>
+                                <div class="bi-star"></div>
+                                <div class="bi-star"></div>
+                                <span style="color: black;">({{category_products.countReview}})</span>
+                            </div>
+
+                            {% elif category_products.AverageRating < 3 %}
+                            <div class="d-flex justify-content-center small text-warning mb-2">
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>  
+                                <div class="bi-star"></div>
+                                <div class="bi-star"></div>
+                                <div class="bi-star"></div>
+                                <span style="color: black;">({{category_products.countReview}})</span>
+                            </div>
+
+                            {% elif category_products.AverageRating < 4 %}
+                            <div class="d-flex justify-content-center small text-warning mb-2">
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>  
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star"></div>
+                                <div class="bi-star"></div>
+                                <span style="color: black;">({{category_products.countReview}})</span>
+                            </div>
+
+                            {% elif category_products.AverageRating < 5 %}
+                            <div class="d-flex justify-content-center small text-warning mb-2">
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>  
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star"></div>
+                                <span style="color: black;">({{category_products.countReview}})</span>
+                            </div>
+
+                            {% else %}
+                            <div class="d-flex justify-content-center small text-warning mb-2">
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>  
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                                <div class="bi-star-fill"></div>
+                                <span style="color: black;">({{category_products.countReview}})</span>
+                            </div>
+
+                            
+
+                            {% endif %}
+
+                            <!-- Product price-->
+                            {% if category_products.offer_price != None and category_products.offer_price != 0 %}
+
+                            <span class="text-muted text-decoration-line-through">৳{{ category_products.product_price }}</span>
+                            ৳{{ category_products.offer_price }}
+
+                            {% else %}
+                            ৳{{ category_products.product_price }}
+
+                            {% endif %}
+                            
+
+                            {% if category_products.total_stock %}
+                            <span style="color: green; font-size: 13px;" class="d-block mt-2 poppins_font"><b>Only {{category_products.total_stock}} left</b></span>
+                            {% else %}
+                            <span style="color: red; font-size: 13px;" class="d-block mt-2 poppins_font"><b>stock out</b></span>
+                            {% endif %}
+                            
+                            
+                        </div>
+                    </div>
+
+                    <!-- Product actions-->
+                    <div class="card-footer pb-4 border-top-0 bg-transparent" style="font-size: 10px !important;">
+                        {% if request.user.is_authenticated and category_products.user != request.user and user.account_type == None  %}
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto add_cart_quick_view_btn" href="{% url 'Order' quick_view_id=category_products.id %}">Buy Now</a>
+                        </div>
+            
+                        {% else %}
+                        <div class="text-center">
+                            <a class="disabled btn btn-outline-dark mt-auto add_cart_quick_view_btn" href="{% url 'Order' quick_view_id=category_products.id %}">Buy Now</a>
+                        </div>
+                        {% endif %}
+                        <div class="text-center mt-2">
+                            <a class="btn btn-outline-dark mt-auto add_cart_quick_view_btn" href="{% url 'quick_view' quick_view_id=category_products.id %}">Quick view</a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            {% endfor %}
+
+
+            <div class="col-12">
+                {% include "pagination.html" %}
+            </div>   
+
+                    
+            
+
+            
+
+
+        </div>
+         
+        
+    </div>
+    
+    
+    
+
+    
+
+</section>
+{% endblock %}

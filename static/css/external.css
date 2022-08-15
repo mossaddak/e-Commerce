@@ -1,0 +1,388 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;700&display=swap');
+
+.montserrat_alternates_font {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.poppins_font{
+    font-family: 'Poppins', sans-serif;
+}
+
+.bg_black {
+    background-color: black !important;
+}
+
+
+.btn-group button img {
+    width: 20px;
+}
+
+.btn-group button {
+    border: 1px solid gray;
+}
+
+.btn-group button:hover {
+    background-color: black;
+}
+
+.btn-group input {
+    border: 1px solid gray;
+}
+
+.view_all_products a {
+    background-color: #C9151B;
+    color: white;
+}
+
+.view_all_products a:hover {
+    color: #e0d9d9;
+}
+
+
+
+.text_uppercase {
+    text-transform: uppercase;
+}
+
+
+/*_____________________ modal _______________*/
+.modal_header{
+    background-color: black;
+    color: white !important;
+}
+.modal_cross_btn{
+    font-size: 15px !important;
+}
+
+.modal_cross_btn:hover{
+    transform: rotate(360deg);
+    transition: 1s;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    border: 1px solid white;
+}
+
+.profile_picture_container input{
+    display: none;
+}
+
+.profile_picture_container{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    transition: 0.9s;
+}
+.profile_picture_container:hover{
+    background-color: black;
+    color: white;
+    transition: 0.9s;
+}
+
+
+/*__________ modal end ___________*/
+
+
+
+
+
+
+
+/**______________________ nav bar start ______________*/
+
+nav {
+    color: white !important;
+    position: relative;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: .5s;
+    font-size: 12px !important;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+
+
+
+
+.nav_cart_btn {
+    color: white !important;
+    border: 1px solid white;
+}
+
+.nav_cart_btn:hover {
+    color: white !important;
+    border: 1px solid white;
+    background-color: black;
+    border: none;
+}
+
+.nav_cart_badge {
+    background-color: white !important;
+    color: black !important;
+}
+
+.sticky {
+    background-color: white;
+    transition: 0.5s;
+}
+
+
+.search_text{
+    color: white !important;
+}
+
+.home_link,
+.tracking_link,
+.shop_link,
+.login_link,
+.singUP_link,
+.manu_bar_color {
+    color: black !important;
+    transition: 0.5s;
+}
+
+/**_______ nav bar end _______*/
+
+/*______________________ home page _________________________*/
+
+.add_cart_quick_view_btn{
+    width:108px; 
+    font-size: 13px; 
+    font-weight: 500;
+}
+
+.product_title{
+    font-size: 14px;
+    font-weight:700;
+}
+.product_image{
+    height:150px;
+}
+
+
+
+
+
+@media screen and (max-width:770px) {
+    .add_cart_quick_view_btn{
+        width:85px; 
+        font-size: 11px; 
+        font-weight: 500;
+    }
+    .product_image{
+        height:110px;
+    }
+    
+}
+
+@media screen and (max-width:962) {
+    .product_image{
+        height:110px;
+    }
+    
+}
+/*____________ home end ___________*/
+
+
+/**______________________ quick view page start ____________________*/
+
+.quick_view_container{
+    margin: 0;
+    padding:0;
+    justify-content: center;
+    display: flex;
+}
+
+.quick_view_button_container{
+    position: absolute;
+    bottom: 10%;
+}
+
+.quick_view_button_container label{
+    width: 5em;
+    height: 2em;
+    outline: none;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.quick_view_button_container label:hover{
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.4);
+}
+
+
+.black_button{
+    background-color: black;
+}
+
+.blue_button{
+    background-color: blue;
+}
+
+.red_button{
+    background-color: red;
+}
+
+.quick_view_button_container input[type="radio"]{
+    display: none;
+}
+
+.quick_view_button_container input[type="radio"]:checked + label{
+    transform: translateY(-8px);
+}
+
+.card_item_heading{
+    font-size: 40px;
+}
+@media screen and (max-width:770px) {
+    .quick_view_container img{
+        height: 350px;
+    }
+    
+}
+
+
+/*_______ quick page end _______*/
+
+
+/*_____________________ order list ______________________*/
+.order_list_button_container div button{
+    transition: 0.9s;
+}
+.order_list_button_container div button:focus{
+    background-color: black;
+    color: white;
+    transform: translateY(-15%);
+    transition: 0.9s;
+
+}
+
+.DeliverdOrderList,.CancelledOrderList{
+    display: none;
+}
+/*_______ order list ends _______*/
+
+
+/*_____________________ store banner ______________________*/
+
+
+/* .banner{
+    background:linear-gradient(rgba(0,0,0.01,0.01),white),url("/static/2_store-banner/store-banner.png");
+    background-size:cover;
+    background-position:center;
+    width: 100%;
+    height: 200px;
+} */
+.banner_heading{
+    margin: 5px;
+    transform: translateY(34px); 
+    font-size: 12px;
+    background-color: white;
+    color: #E91E63 !important;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    font-weight: 600;
+}
+
+.store_banner{
+    width: 100%;
+    height: 200px;
+}
+
+.button_container{
+    transform: translateY(-42px); 
+    margin: 5px;
+    
+}
+.button_container a,.button_container label{
+    background-color: white !important;
+    color: #E91E63 !important;
+    font-size: 12px !important;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border:none !important;
+    transition: 0.9s;
+}
+.button_container a:hover,.button_container label:hover{
+    background-color: rgb(214, 214, 214) !important;
+}
+.button_container a:focus{
+    background-color: rgb(214, 214, 214) !important;
+}
+
+@media screen and (max-width:653px) {
+    .store_banner{
+        width: 100%;
+        height: 100%;
+    }
+
+    .button_container a,.button_container label{
+        font-size: 8px !important;
+        padding: 5px;
+    }
+    .button_container{
+        transform: translateY(-28px);
+        margin: 1px;
+    }
+    .banner_heading{
+        transform: translateY(25px); 
+        font-size: 8px;
+    }
+    
+}
+
+
+.banner_container input{
+    display: none;
+}
+.banner_container,.banner_upload_btn{
+    margin:5px;
+    transform: translateY(-30px); 
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.9s;
+}
+.banner_container:hover, .banner_upload_btn:hover{
+    color: #E91E63;
+}
+.store_banner_form{
+    display: none;
+}
+
+
+
+/*_______ store banner ends _______*/
+
+/*__________________ notification modal start ___________________*/
+.notification_container{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 5px;
+    background-color: white !important;
+    transition: .9s;
+
+}
+.notification_container:hover{
+    background-color: rgb(200, 200, 200) !important;
+
+}
+.notification_container a{
+    text-decoration: none;
+    color: black;
+}
+
+/*_______ notification modal ends _______*/
+
+
+/*__________________ shopping cart start ___________________*/
+.view_and_buy_btn{
+    background-color: black;
+    font-size: 11px !important;
+    color:white !important;
+    border-radius: 5px !important;
+    text-decoration: none;
+    text-align: center;
+}
+.order_image{
+    width: 80px;
+    height: 80px;
+}
+
+/*_______ shopping cart start ends _______*/
+

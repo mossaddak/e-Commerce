@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Notification {% endblock %}
+
+{% block content %}
+
+{% if request.user.user_notifications.all.count < 10 %}  
+<style>
+  .container{
+      height: 100vh;
+  }
+</style>
+{% endif %}
+
+
+<section class="py-5">
+
+    <div class="container mt-5 ">
+        
+        {% if notifications %}
+        {% for notification in notifications %}
+        {% if notification.content_object %}
+
+        {% if notification.notification_types == 'Product' or notification.notification_types == 'ProductREVIEWS' %}
+        <div class="notification_container p-3 my-2">
+          <a href="{% url 'quick_view' notification.content_object.id %}">
+              <p style="line-height: 1.3; font-size: 15px !important;" class="poppins_font"><b></b> {{ notification.text }}</p>
+              <small class="d-block poppins_font" style="line-height: 0.5;font-size: 12px !important;">{{ notification.created_date|timesince }} ago</small>
+          </a>
+        </div>
+        {% else %}
+        <div class="notification_container p-3 my-2">
+          <a href="#">
+              <p style="line-height: 1.3; font-size: 15px !important;" class="poppins_font"><b></b> {{ notification.text }}</p>
+              <small class="d-block poppins_font" style="line-height: 0.5;font-size: 12px !important;">{{ notification.created_date|timesince }} ago</small>
+          </a>
+        </div>
+        {% endif %}
+
+        {% else %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        
+    </div>
+
+</section>
+{% endblock %}

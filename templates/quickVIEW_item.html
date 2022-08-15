@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{category.title}} {% endblock %}
+
+{% block content %}
+<section class="py-5 mt-5 container-fluid d-flex justify-content-center" style="background-color: #ECF0F1;">
+
+  <div class="container" style="background-color: white">
+    <div class="row">
+
+
+      <div class="col-12 col-md-12 col-lg-6 pt-5 mt-d-0 pt-lg-0">
+  
+        <!-- image -->
+        <div class="container-fluid quick_view_container py-5">
+          <img class="change_image" src="{{quick_view.product_image.url}}" style="height: 250px;" alt="black photo">
+        </div>
+  
+      </div>
+
+  
+      <div class="col-12 col-md-12 col-lg-6 pt-0 pt-md-0 pt-lg-5 ">
+  
+  
+        <div class="text-center text-md-center text-lg-start">
+          <div class="row">
+
+            <div class="col-12 col-md-12 col-lg-10">
+              <small class="mt-5 text-center text-md-center text-lg-start" style="font-size: 15px; font-weight:700;text-transform:uppercase; color: #2579b7;">{{quick_view.product_category }} </small>
+              <br>
+              <!-- product id -->
+              <small class="poppins_font" style="font-size: 13px;">Poduct Id: {{ quick_view.id }}</small>
+            </div>
+            
+            
+            <!-- store icon-->
+            <div class="col-12 col-md-12 col-lg-2">
+              {% if request.user != quick_view.user %}
+              <a href="{% url 'Store' quick_view.user.username %}" class="btn" style="font-size:large;" data-bs-toggle="tooltip" data-bs-placement="top" title="Go to store"><i class="bi bi-shop-window"></i></a>
+              {% else %}
+              <a href="#!" class="btn" style="font-size:large;" data-bs-toggle="tooltip" data-bs-placement="top" title="Your Product">own</a>
+              {% endif %}
+            </div>
+            
+          </div>
+          
+          
+          <hr>
+  
+          <!-- product title -->
+          <h5 class="card_item_heading  text-center text-md-center text-lg-start">
+            {{ quick_view.product_title }}
+          </h5>
+
+  
+          <!-- Product price-->
+          <div>
+            {% if quick_view.offer_price != None %}
+            <!-- product price -->
+            <span class="text-decoration-line-through" style="font-size: 15px; font-weight:700;text-transform:uppercase; color: #2579b7;">৳{{quick_view.product_price }}</span>
+  
+            <!-- offer price -->
+            <span class="" style="font-size: 20px; font-weight:700;text-transform:uppercase; color: #2579b7;">৳<span class="PriceLabel">{{quick_view.offer_price }}</span></span>
+
+            {% else %}
+            <span class="" style="font-size: 20px; font-weight:700;text-transform:uppercase; color: #2579b7;">৳<span class="PriceLabel">{{quick_view.product_price}}</span></span>
+  
+            {% endif %}
+
+            
+
+
+            
+          </div>
+
+          <!-- product price -->
+          <p class="  badge poppins_font" style="background-color: black !important; font-size:11px;">SHIPPING ৳50</p>
+  
+          <!-- stock & out stock container -->
+          <div class="">
+            {% if quick_view.total_stock != None %}
+            <p class="poppins_font" style="font-size: 13px; color: green; font-weight: 600;">In Stock</p>
+            <p class="poppins_font" style="font-size: 15px; line-height: .1;">Only {{ quick_view.total_stock }} left </p>
+            {% else %}
+            <p class="poppins_font" style="font-size: 13px; color: red; font-weight: 600;">Stock Out</p>
+            <p class="poppins_font" style="font-size: 15px; line-height: .1;">Very soon will be in stock </p>
+            {% endif %}
+            
+            
+          </div>
+
+          <!-- color container -->
+          <div class="color_container mt-4">
+            <label style="font-size: 14px; font-weight: 600; color: #7D7D7D;">AVAILABLE COLORS</label>
+
+            <div class="d-flex justify-content-center">
+              <select id="inputState" class="form-control poppins_font mt-1" style="font-size: small; background-color: #F3F3F3; border: none !important;" name="avilable_color" required>
+                <option class="" style="font-size: small;">-- Select One --</option>
+                <option class="" style="font-size: small;">Black</option>
+                <option class="" style="font-size: small;">Red</option>
+                <option class="" style="font-size: small;">White</option>
+              </select>
+            </div>
+            
+          </div>
+
+
+          <!-- product quantity -->
+          <div class="quantity_container poppins_font mt-3">
+            <label style="font-size: 14px; font-weight: 600; color: #7D7D7D;" class="">QUANTITY</label>
+
+            
+            <style>
+              .number_button input::-webkit-inner-spin-button,
+              input[type=number]::-webkit-outer-spin-button {
+                  opacity: 0;  
+              }
+            </style>
+            <div class="d-flex justify-content-lg-start justify-content-center">
+
+              <div class="btn-group ">
+                <button class="btn poppins_font border quantitity_decrease_btn" style="font-size: small; background-color: #F3F3F3;">-</button>
+                
+                <input readonly type="number" class="btn border text-center number_button poppins_font QuantityInput"  id="quantity_get" min="1" max="5" value="1" style="font-size: small; background-color: #F3F3F3;">
+                
+                <button class="btn border poppins_font quantitity_increase_btn" style="font-size: small; background-color: #F3F3F3;">+</button>
+              </div>
+
+
+              
+            </div>
+            
+            
+          </div>
+          
+          {% if request.user.is_authenticated %}
+          {% if request.user != quick_view.user %}
+          {% if user.account_type == None %}
+          {% if quick_view.total_stock != None %}
+          <hr>
+          <!-- buy now btn -->
+          <a class="btn btn-outline-dark mt-auto poppins_font" onclick="passvalues_of_quantity()" style="width:112px;" href="{% url 'Order' quick_view_id=quick_view.id %}">Buy Now</a>
+          <!-- add to cart -->
+          <a class="btn btn-outline-dark mt-auto" style="width:112px;" href="{% url 'ShoppinfCart' id=quick_view.id %}">Add To Cart</a>
+
+          {% endif %}
+          {% else %}
+          <hr>
+
+          <!-- buy now btn -->
+          <a class="btn btn-outline-dark mt-auto poppins_font disabled" onclick="passvalues_of_quantity()" style="width:112px;" href="{% url 'Order' quick_view_id=quick_view.id %}">Buy Now</a>
+  
+          <!-- add to cart -->
+          <a href="#!" class="btn btn-outline-dark mt-auto disabled" onclick="oke()" style="width:112px;">Add To Cart</a>
+
+          <p style="color: red; font-size:12px;" class="mt-2">Note: You're in seller mode. Please on buyer mood to buy product and add product to cart.</p>
+        
+          {% endif %}
+          {% endif %}
+
+          {% else %}
+          <hr>
+           <!-- buy now btn -->
+           <a class="btn btn-outline-dark mt-auto poppins_font disabled" onclick="passvalues_of_quantity()" style="width:112px;" href="{% url 'Order' quick_view_id=quick_view.id %}">Buy Now</a>
+  
+           <!-- add to cart -->
+           <a href="#!" class="btn btn-outline-dark mt-auto disabled" onclick="oke()" style="width:112px;">Add To Cart</a>
+
+           <p style="color: red; font-size:12px;" class="mt-2">Note: Please log into your account for order or add to cart.</p>
+          {% endif %}
+          
+        </div>
+
+
+  
+      </div>
+  
+      <!-- product desc -->
+      <style>
+        .product_info_button_container button:focus{
+          transform: translateY(-8px);
+          transition: 0.9s;
+          background-color: black;
+          color: white;
+        }
+        .product_info_button_container button{
+          transition: 0.9s;
+          border: none !important;
+        }
+        .more_info,.reviews{
+            display:none;
+        }
+        .descriptions img{
+          width: 250px !important;
+          height: auto;
+        }
+
+        @media screen and (max-width: 657px){
+          .product_info_button_container button{
+            font-size: 12px !important;
+          }
+          .item_desc_container{
+            font-size: 13px !important;
+          }
+        }
+      </style>
+        <div>
+          <div class="d-flex justify-content-center product_info_button_container mt-5 poppins_font" >
+            <button class="btn btn-outline-dark mx-1 product_info_btn" style="font-size: 15px;" autofocus>Description</button>
+            <button class="btn btn-outline-dark mx-1 product_info_btn" style="font-size: 15px;">More Info</button>
+            <button class="btn btn-outline-dark mx-1 product_info_btn" style="font-size: 15px;">Reviews</button>
+          </div>
+          <hr>
+          {% if messages %}
+          {% include 'message.html' %}
+          {% endif %}
+
+
+          <div class="item_desc_container text-center text-md-center text-lg-start descriptions poppins_font pb-2" style="font-size: 15px;">{{ quick_view.product_desc|safe }}</div>
+
+          <!-- more infrmation -->
+          <div class="row poppins_font item_desc_container more_info" style="font-size: 15px;">
+
+            <p class="col-6 text-end item_desc_container more_info" style="font-weight: 500;">
+              <label class="d-block">Product Id :</label> 
+              <label class="d-block">Brand :</label> 
+              <label class="d-block">Shipping Fee :</label> 
+              <label class="d-block">Warranty :</label>
+              <label class="d-block">Gurantee :</label> 
+              <label class="d-block">Return Policy :</label> 
+            </p>
+
+            <p class="col-6 item_desc_container more_info">
+              <label class="d-block">{{ quick_view.id }}</label> 
+              <label class="d-block">{{ quick_view.brand }}</label> 
+              <label class="d-block">50</label> 
+              <label class="d-block">{{ quick_view.warranty }}</label>
+              <label class="d-block">{{ quick_view.gurantee }}</label> 
+              <label class="d-block">3 days return</label> 
+            </p>
+
+
+          </div>
+          
+
+
+          <div class="item_desc_container reviews">
+            
+
+          
+
+            {% include "feedback_form.html" %}
+
+
+            <!-- all feedbacks -->
+            {% include "all_feedbacks.html" %}
+
+
+          </div>
+            
+
+        </div>
+
+        <script>
+           
+        </script>
+      
+      </div>
+      
+  </div>
+
+ 
+  </script>
+ 
+</section>
+
+
+<script>
+
+//product quantitity storing in loal storage
+  function passvalues_of_quantity(){
+    var firstName = document.getElementById("quantity_get").value;
+    localStorage.setItem("quantity_store", firstName);
+    return false;
+  }
+
+
+  //fetching product quantity
+  let btnSubtract=document.querySelector(".quantitity_increase_btn");
+  let QuantityInput = document.querySelector(".QuantityInput");
+  let btnAdd=document.querySelector(".quantitity_decrease_btn");
+  var PriceLabel = document.querySelector(".PriceLabel");
+
+  var StockItem = parseInt("{{quick_view.total_stock}}")
+
+  btnSubtract.addEventListener("click",()=>{
+
+
+    if(QuantityInput.value<5){
+      if(QuantityInput.value<parseInt(StockItem)){
+        quantity = QuantityInput.value=parseInt(QuantityInput.value)+1;
+        PriceLabel.innerHTML = quantity*parseInt("{% if quick_view.offer_price %}{{quick_view.offer_price}}{% else %}{{quick_view.product_price}}{% endif %}");
+      }
+    }else{
+        if(QuantityInput.value<5){
+          quantity = QuantityInput.value=parseInt(QuantityInput.value)+1;
+          PriceLabel.innerHTML = quantity*parseInt("{% if quick_view.offer_price %}{{quick_view.offer_price}}{% else %}{{quick_view.product_price}}{% endif %}");
+        }
+    }
+    
+    
+  });
+
+  btnAdd.addEventListener("click",()=>{
+
+    if(QuantityInput.value>1){
+      quantity = QuantityInput.value=parseInt(QuantityInput.value)-1;
+      PriceLabel.innerHTML = quantity*parseInt("{% if quick_view.offer_price %}{{quick_view.offer_price}}{% else %}{{quick_view.product_price}}{% endif %}");
+    }
+    
+  });
+
+</script>
+
+{% endblock %}

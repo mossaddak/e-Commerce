@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Ecommerce Website {% endblock %}
+
+
+
+{% block content %}
+<!-- banners -->
+
+
+
+<!-- product Section-->
+<section class="container py-4 py-lg-5" >
+    <div class="mt-5">
+        <h4 class="text-start montserrat_alternates_font badge bg-dark" style="font-size: 15px;">{{category.title}}
+            <small>{{search_products.count}} results found for '{{search_key}}'</small>
+        </h4>
+    </div><hr>
+
+
+
+
+    
+
+    <div class="row mt-5  row-cols-2 row-cols-md-4 row-cols-xl-6 justify-content-start">
+        
+
+        {% for search_products in search_products %}
+        <div class="col mb-5">
+            <div class="card h-100">
+
+                <!-- Sale badge-->
+                {% if search_products.offer_price != None %}
+                {% if search_products.offer_price != 0 %}
+                <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+                    SALE
+                </div>
+                {% endif %}
+                {% endif %}
+
+                <!-- Product image-->
+                <img class="card-img-top" style="height:150px;" src="{{search_products.product_image.url}}" alt="..." />
+                <!-- Product details-->
+                <div class="card-body ">
+                    <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder " style="font-size: 14px; font-weight:700;">{{search_products.product_title}}</h5>
+                        <!-- Product reviews-->
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            
+
+
+                            {% if search_products.AverageRating < 1 %}
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star"></div>
+                                    <div class="bi-star"></div>  
+                                    <div class="bi-star"></div>
+                                    <div class="bi-star"></div>
+                                    <div class="bi-star"></div>
+                                    <span style="color: black;">({{search_products.countReview}})</span>
+                                </div>
+
+                                {% elif search_products.AverageRating < 2 %}
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star"></div>  
+                                    <div class="bi-star"></div>
+                                    <div class="bi-star"></div>
+                                    <div class="bi-star"></div>
+                                    <span style="color: black;">({{search_products.countReview}})</span>
+                                </div>
+
+                                {% elif search_products.AverageRating < 3 %}
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>  
+                                    <div class="bi-star"></div>
+                                    <div class="bi-star"></div>
+                                    <div class="bi-star"></div>
+                                    <span style="color: black;">({{search_products.countReview}})</span>
+                                </div>
+
+                                {% elif search_products.AverageRating < 4 %}
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>  
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star"></div>
+                                    <div class="bi-star"></div>
+                                    <span style="color: black;">({{search_products.countReview}})</span>
+                                </div>
+
+                                {% elif search_products.AverageRating < 5 %}
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>  
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star"></div>
+                                    <span style="color: black;">({{search_products.countReview}})</span>
+                                </div>
+
+                                {% else %}
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>  
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <span style="color: black;">({{search_products.countReview}})</span>
+                                </div>
+
+                                
+
+                                {% endif %}
+                        </div>
+
+                        
+                        <!-- Product price-->
+                        {% if search_products.offer_price != None and search_products.offer_price != 0 %}
+
+                        <span class="text-muted text-decoration-line-through">৳{{ search_products.product_price }}</span>
+                        ৳{{ search_products.offer_price }}
+
+                        {% else %}
+                        ৳{{ search_products.product_price }}
+
+                        {% endif %}
+                        
+
+                        {% if search_products.total_stock %}
+                        <span style="color: green; font-size: 13px;" class="d-block mt-2 poppins_font"><b>Only {{search_products.total_stock}} left</b></span>
+                        {% else %}
+                        <span style="color: red; font-size: 13px;" class="d-block mt-2 poppins_font"><b>stock out</b></span>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+                <!-- Product actions-->
+                <div class="card-footer pb-4 border-top-0 bg-transparent" style="font-size: 10px !important;">
+                    {% if request.user.is_authenticated and products.user != request.user and user.account_type == None  %}
+                    <div class="text-center">
+                        <a class="btn btn-outline-dark mt-auto add_cart_quick_view_btn" href="{% url 'Order' quick_view_id=search_products.id %}">Buy Now</a>
+                    </div>
+        
+                    {% else %}
+                    <div class="text-center">
+                        <a class="disabled btn btn-outline-dark mt-auto add_cart_quick_view_btn" href="{% url 'Order' quick_view_id=search_products.id %}">Buy Now</a>
+                    </div>
+                    {% endif %}
+                    <div class="text-center mt-2">
+                        <a class="btn btn-outline-dark mt-auto add_cart_quick_view_btn" href="{% url 'quick_view' quick_view_id=search_products.id %}">Quick view</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </div>
+
+</section>
+
+
+{% endblock %}

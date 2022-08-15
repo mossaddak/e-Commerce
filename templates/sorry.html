@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Sorry {% endblock %}
+
+{% block content %}
+
+<!-- sorry Section-->
+
+<section class="py-4 py-lg-5 container">
+    <div class="mt-5">
+        <h4 class="text-start montserrat_alternates_font badge bg-dark mt-5" style="font-size: 15px;">
+            <small><span style="text-transform: uppercase;">'{{search_key}}'</span> is not available</small>
+        </h4>
+    </div><hr>
+
+    <style>
+        .sorry_img_container img{
+            height: 400px;
+        }
+
+        @media screen and (max-width:770px) {
+            .sorry_img_container img{
+                height: 300px;
+            }
+            
+        }
+    </style>
+
+    <div class=" d-flex justify-content-center justify-item-center py-5 sorry_img_container">
+        <img src="{% static 'images/3_sorry.png' %}">
+    </div>
+   
+
+</section>
+
+
+
+{% endblock %}

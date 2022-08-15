@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Ecommerce Website {% endblock %}
+
+
+
+{% block content %}
+<!-- banners -->
+
+
+
+<!-- product Section-->
+
+<section class="py-4 py-lg-5 container">
+    {% include 'banner.html' %}
+
+    <div class="mt-5">
+        
+        
+
+        {% for category in categories|slice:"3" %}
+
+        
+        <h4 class="text-start montserrat_alternates_font col-12" style="font-size: 20px;">{{ category.title }}</h4>
+        <hr>
+        <div class="row mt-5  row-cols-2 row-cols-md-4 row-cols-xl-6 ">
+
+            
+            {% for products in category.categoty_related_name.all|slice:"6" %}
+            
+
+            <!--- product card --->
+            {% include 'product_card.html' %}
+
+            {% endfor %}
+
+            
+        
+        </div>
+        <div class="text-end">
+            <a href="{% url 'category_items' category_id=category.id %}" class="btn btn-outline-dark">see all <i class="fas fa-chevron-double-right"></i></a>
+        </div>
+        
+        {% endfor %}
+
+        <!-- all products -->
+        <h4 class="text-start montserrat_alternates_font col-12" style="font-size: 20px;">All Products</h4>
+        <hr>
+        <div class="row mt-5  row-cols-2 row-cols-md-4 row-cols-xl-6 ">
+
+            
+            {% for products in all_products|slice:"18" %}
+            <!--- product card --->
+            {% include 'product_card.html' %}
+
+            {% endfor %}
+
+            
+        
+        </div>
+        <div class="text-end">
+            <a href="{% url 'all_products' %}" class="btn btn-outline-dark">see all <i class="fas fa-chevron-double-right"></i></a>
+        </div>
+                
+
+        
+    </div>
+</section>
+
+
+
+{% endblock %}

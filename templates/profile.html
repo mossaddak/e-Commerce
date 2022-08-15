@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{request.user.first_name}} {% endblock %}
+
+{% block content %}
+<style>
+    
+</style>
+<section class="py-5">
+
+
+
+
+    <style>
+        .form-control:focus {
+            box-shadow: none;
+            border-color: black
+        }
+
+        .profile-button {
+            background: black;
+            box-shadow: none;
+            border: none;
+            width: 150px !important;
+        }
+
+        .profile-button:hover {
+            background: rgb(75, 75, 75)
+        }
+
+        .profile-button:focus,.change_profile_btn:focus{
+            background: rgb(75, 75, 75);
+            box-shadow: none;
+            color: white;
+        }
+
+        .profile-button:active {
+            background: black;
+            box-shadow: none;
+        }
+
+        .back:hover {
+            color: black;
+            cursor: pointer
+        }
+
+        .labels {
+            font-size: 13px
+        }
+
+        .add-add_addres:hover {
+            background: black;
+            color: #fff;
+            cursor: pointer;
+            border: solid 1px black
+        }
+        input,button{
+            font-size: 13px !important;
+        }
+
+    </style>
+
+
+
+
+    <div class="container rounded bg-white mt-5 mb-5 poppins_font">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+
+                    {% if request.user.get_profile_picture %}
+                    <img class="rounded-circle mt-5" height="150px" width="150px" src="{{ request.user.get_profile_picture }}">                   
+
+                    {% else %}       
+                    <img class="rounded-circle mt-5" width="150px" src="{% static 'images/4_default_profile_image.jpg' %}">                   
+                    {% endif %}
+
+                    <span class="font-weight-bold mt-2">{{request.user.first_name}} {{request.user.last_name}}</span>
+                    <span class="text-black-50">{{request.user.email}}</span><span> </span>
+                    <div class="mt-4 text-center"><button class="btn profile-button border text-white" data-bs-toggle="modal" data-bs-target="#PROFILEpictureModal" type="button">Change Profile</button></div>
+
+                    {% if request.user.account_type == "seller" %}
+                    <div class="mt-3">
+                        <div class="my-1 text-center"><a href="{% url 'add_product' %}" style="font-size: 13px;" class="btn profile-button border text-white" >Add Product</a></div>
+                        <div class="my-1 text-center"><a href="{% url 'my_products' %}" style="font-size: 13px;" class="btn profile-button border text-white" >My Products</a></div>
+
+                        <!-- rating star -->
+                        <div class="my-1 text-center">
+                            <a href="!#" style="font-size: 13px;" class="btn profile-button border text-white d-flex justify-content-center">Customer Reviews{{counter.number_of_reviews}}</a>
+                        </div>
+                    </div>
+                    {% endif %}
+
+
+                    {% if request.user.is_superuser %}
+                    <div class="mt-3">
+                        <div class="my-1 text-center"><a href="http://127.0.0.1:8000/admin/" target="_blank" style="font-size: 13px;" class="btn profile-button border text-white" >Dashboard</a></div>
+                    </div>
+                    {% endif %}
+
+                    
+                    <!-- change profile -->
+                </div>
+                    
+            </div>
+
+            <!-- profile picture modal -->
+
+            {% include "profile_picture.html" %}
+
+
+
+
+            <div class="col-md-5 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profile Settings</h4>
+                    </div>
+
+                    {% if messages %}
+                    <div class="justify-content-between align-items-center mb-3">
+                        
+                        {% include "message.html" %}
+                        
+                    </div>
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                        <div class="alert alert alert-danger alert-dismissible fade show poppins_font" style="font-size: 13px;" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        
+                            {{ error }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form action="{% url 'user_profile' %}" method="POST">
+                        {% csrf_token %}
+
+                        <!-- name container -->
+                        <div class="row mt-2">
+
+
+                            <!-- first name -->
+                            <div class="col-md-6">
+                                <label class="labels">First Name</label><input type="text" name="first_name" class="form-control" placeholder="first name" value="{{ account.first_name }}">
+
+                                <div class="text-danger errors" style="font-size: 13px;">{{ form.first_name.errors }}</div>
+                            </div>
+
+
+
+                            <!-- last name -->
+                            <div class="col-md-6">
+                                <label class="labels">Last Name</label><input type="text" name="last_name" class="form-control" value="{{ account.last_name }}" placeholder="last name">
+                            
+                                <div class="text-danger errors" style="font-size: 13px;">{{ form.last_name.errors }}</div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row mt-3">
+
+                            <!-- username -->
+                            <div class="col-md-12">
+                                <label class="labels">User Name</label>
+                                <input type="text" class="form-control" name="username" placeholder="username" value="{{ account.username }}">
+
+                                <!-- error message -->
+                                <div class="text-danger errors" style="font-size: 13px;">{{ form.username.errors }}</div>
+                            </div>
+
+
+                            <!-- emial -->
+                            <div class="col-md-12 mt-1">
+                                <label class="labels">Email ID</label>
+                                <input type="text" class="form-control" name="email" placeholder="email" value="{{ account.email }}">
+
+                                <!-- error message -->
+                                <div class="text-danger errors" style="font-size: 13px;">{{ form.email.errors }}</div>
+                            </div>
+
+
+                            <!-- phone numberr -->
+                            <div class="col-md-12 mt-1">
+                                <label class="labels">Phone Number</label>
+                                <input type="text" name="phone_number" class="form-control" placeholder="phone number" value="{{ account.phone_number }}">
+
+                                <!-- error message -->
+                                <div class="text-danger errors" style="font-size: 13px;">{{ form.phone_number.errors }}</div>
+                            </div>
+
+
+
+                            <!-- new password -->
+                            <div class="col-md-12 mt-1">
+                                <label class="labels">New Password</label>
+                                <input type="text" class="form-control" name="new_password" placeholder="new password" value="">
+
+                                <!-- error message -->
+                                <div class="text-danger errors" style="font-size: 13px;">{{ form.password.errors }}</div>
+
+                            </div>
+
+                            <!-- confirm password -->
+                            <div class="col-md-12 mt-1">
+                                <label class="labels">Confirm Password</label>
+                                <input type="text" name="confirm_password" class="form-control" placeholder="confirm password" value="">
+
+                                <!-- error message -->
+                                <div class="text-danger errors" style="font-size: 13px;">{{ form.password.errors }}</div>
+                            </div>
+
+
+
+
+                            <!-- account type -->
+                            <div class="col-md-12 mt-3">
+                                <label class="labels">If you tick the seller checkbox, just then you will become a seller.</label>
+
+
+                                <!-- seller -->
+                                {% if request.user.account_type == "seller" %}
+                                <div><input type="checkbox" checked name="account_type" class=""  value="seller"><label class="labels" style="font-size: 15px;">&nbsp;Seller</label></div>  
+                                {% else %}
+                                <div><input type="checkbox" name="account_type" class=""  value="seller"><label class="labels" style="font-size: 15px;">&nbsp;Seller</label></div>  
+                                {% endif %}
+
+                                <!-- error message -->
+                                <div class="text-danger errors" style="font-size: 13px;"></div>
+                            </div>
+
+                        </div>
+                        <div class="mt-4 text-end"><button class="btn btn-primary profile-button px-4" type="submit">Save</button></div>
+
+                    </form>
+
+                    
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 ">
+                    <div class="d-flex justify-content-end add_addres">
+                        
+                        {% if request.user.AddresRelatedName.all.count == 1 %}
+                        <span class="border px-3 p-1 add-add_addres disabaled"><i class="fa fa-plus"></i>&nbsp;Add Address {{UserAddress.Home}}</span>
+                        
+                        {% else %}
+                        <span class="border px-3 p-1 add-add_addres" data-bs-toggle="modal" data-bs-target="#AddressModal"><i class="fa fa-plus"></i>&nbsp;Add Address</span>
+
+                        {% endif %}
+
+                        <!-- add address form -->
+                        {% include 'add_address.html' %}
+                    </div>
+                    <br>
+
+                    
+
+                    {% for UserAddress in UserAddress %}
+                    <div class="col-md-12 ps-3">
+                        <div class="d-flex justify-content-between">
+                            
+                            <label class="labels AddresCheckLabel">
+                                    Address
+                            </label>
+                            
+
+                            <div>
+                                <!-- edit btn -->
+                                <a href="#!"  data-bs-toggle="modal" data-bs-target="#UpdateAddressModal{{UserAddress.id}}" class="py-1 px-2 btn"><i class="bi bi-pencil-square"></i></a>
+                                <!-- delete btn -->
+                                <a href="{% url 'DeleteAddress' id=UserAddress.id %}" class="py-1 px-2 btn"><i class="bi bi-trash-fill"></i></a>
+                            </div>
+
+                            <!-- udate address form -->
+                            {% include 'updateAddress.html' %}
+                            
+                        </div>
+                        
+
+                        <div class="border form-control row" style="font-size: 13px;">
+                            <div class="col-4">
+                                <label class=" d-block">Home</label> 
+                                <label class=" d-block">Area</label> 
+                                <label class=" d-block">P. Off</label>  
+                                <label class=" d-block">Upzilla</label> 
+                                <label class=" d-block">Zilla</label> 
+                            </div>
+
+                            <div class="col-8">
+                                <label class=" d-block">: {{ UserAddress.Home }}</label> 
+                                <label class=" d-block">: {{ UserAddress.Area }}</label> 
+                                <label class=" d-block">: {{ UserAddress.PostOffice }}</label>  
+                                <label class=" d-block">: {{ UserAddress.Upzilla }}</label> 
+                                <label class=" d-block">: {{ UserAddress.Zilla }}</label> 
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+ 
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+
+</section>
+{% endblock %}

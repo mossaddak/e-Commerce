@@ -1,0 +1,197 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} My Products {% endblock %}
+{% block link %}
+{% endblock %}
+
+
+{% block content %}
+
+<section class="container py-5">
+    <div class="mt-5">
+        {% if messages %}
+        {% include 'message.html' %}
+        {% endif %}
+    </div>
+
+
+    <div class="mt-3">
+
+        <div class="banner" style="">
+            <div class="d-flex">
+                <h1 class="banner_heading badge poppins_font">{{store.first_name}} {{store.last_name}} <i class="bi bi-shop-window"></i></h1>
+                <h1 class="banner_heading badge poppins_font">{{ store.users_followers.count }} Followers</i></h1>
+            </div>
+
+            <!-- store image -->
+            {% if store.get_StoreBanner %}
+            <img src="{{ store.get_StoreBanner }}" class="store_banner" alt="bannar image">
+            {% else %}
+            <img src="{% static 'images/5_store-banner/default-store-banner.png' %}" id="previewImage" class="store_banner" alt="bannar image">
+            
+            {% endif %}
+        </div>
+
+
+        {% if user != store.user %}
+        <div class="button_container btn-group poppins_font">
+            <!-- follow button -->
+            {% if following %}
+            <a href="{% url 'follow_or_unfollow_user' store.id %}" class="btn mx-1"><i class="bi bi-person-check-fill"></i></a>
+            {% else %}
+            <a href="{% url 'follow_or_unfollow_user' store.id %}" class="btn mx-1"><i class="bi bi-people-fill "></i></a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+
+
+    <!-- storeProduct title -->
+    <h4 class="text-start montserrat_alternates_font badge bg-dark" style="font-size: 15px;">
+        <small>({{store.merchandise_product_related_name.all.count}})</small> Products
+    </h4>
+    <hr>
+
+    <!--_______ storeProduct _______-->
+
+    <div class="row mt-5 row-cols-2 row-cols-md-4 row-cols-xl-6 ">
+
+        {% for storeProduct in store.merchandise_product_related_name.all %}
+        
+        <!--- product card --->
+        <div class="col-6 col-md-3 col-lg-2 col-xl-2 mb-5">
+            <div class="card h-100">
+        
+                <!-- Sale badge-->
+                {% if storeProduct.offer_price != None %}
+        
+                {% if storeProduct.offer_price != 0 %}
+                <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+                    SALE
+                </div>
+                {% endif %}
+                
+                {% endif %}
+        
+                <!-- Product image-->
+                <img class="card-img-top" style="height:150px;" src="{{storeProduct.product_image.url}}" alt="..." />
+                <!-- Product details-->
+                <div class="card-body ">
+                    <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder product_title">{{storeProduct.product_title}}</h5>
+                        <!-- Product reviews-->
+                        {% if storeProduct.AverageRating < 1 %}
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star"></div>
+                            <div class="bi-star"></div>  
+                            <div class="bi-star"></div>
+                            <div class="bi-star"></div>
+                            <div class="bi-star"></div>
+                            <span style="color: black;">({{storeProduct.countReview}})</span>
+                        </div>
+
+                        {% elif storeProduct.AverageRating < 2 %}
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star"></div>  
+                            <div class="bi-star"></div>
+                            <div class="bi-star"></div>
+                            <div class="bi-star"></div>
+                            <span style="color: black;">({{storeProduct.countReview}})</span>
+                        </div>
+
+                        {% elif storeProduct.AverageRating < 3 %}
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>  
+                            <div class="bi-star"></div>
+                            <div class="bi-star"></div>
+                            <div class="bi-star"></div>
+                            <span style="color: black;">({{storeProduct.countReview}})</span>
+                        </div>
+
+                        {% elif storeProduct.AverageRating < 4 %}
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>  
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star"></div>
+                            <div class="bi-star"></div>
+                            <span style="color: black;">({{storeProduct.countReview}})</span>
+                        </div>
+
+                        {% elif storeProduct.AverageRating < 5 %}
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>  
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star"></div>
+                            <span style="color: black;">({{storeProduct.countReview}})</span>
+                        </div>
+
+                        {% else %}
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>  
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <span style="color: black;">({{storeProduct.countReview}})</span>
+                        </div>
+                        {% endif %}
+        
+                        <!-- Product price-->
+                        {% if storeProduct.offer_price != None and storeProduct.offer_price != 0 %}
+        
+                        <span class="text-muted text-decoration-line-through">৳{{ storeProduct.product_price }}</span>
+                        ৳{{ storeProduct.offer_price }}
+        
+                        {% else %}
+                        ৳{{ storeProduct.product_price }}
+        
+                        {% endif %}
+        
+                        
+                    </div>
+                </div>
+                
+                <!-- Product actions-->
+                <div class="card-footer pb-4 border-top-0 bg-transparent" style="font-size: 10px !important;">
+                    {% if request.user.is_authenticated and storeProduct.user != request.user and user.account_type == None  %}
+                    <div class="text-center">
+                        <a class="btn btn-outline-dark mt-auto add_cart_quick_view_btn" href="{% url 'Order' quick_view_id=storeProduct.id %}">Buy Now</a>
+                    </div>
+        
+                    {% else %}
+                    <div class="text-center">
+                        <a class="disabled btn btn-outline-dark mt-auto add_cart_quick_view_btn" href="{% url 'Order' quick_view_id=storeProduct.id %}">Buy Now</a>
+                    </div>
+                    {% endif %}
+                    <div class="text-center mt-2">
+                        <a class="btn btn-outline-dark mt-auto add_cart_quick_view_btn" href="{% url 'quick_view' quick_view_id=storeProduct.id %}">Quick view</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        {% endfor %}
+
+    </div>
+
+    
+
+</section>
+
+{% endblock %}
+
+
+
+
