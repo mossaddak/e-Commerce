@@ -28,9 +28,9 @@ STATIC_DIR = os.path.join(BASE_DIR,'static')
 SECRET_KEY = 'django-insecure-ibz8y0*04-smjhm=@(rom(jbxegmk9#xtoqsh48v8_w3zom)yz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['ecommercems.herokuapp.com','localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
