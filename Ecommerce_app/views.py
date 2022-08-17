@@ -278,17 +278,19 @@ def add_product(request):
 def update_product(request,id):
     product = Products.objects.get(pk=id)
     form = update_product_info(request.POST or None, instance=product)
-    if form.is_valid():
+    
+    if request.method == 'POST' and form.is_valid():
+        form = update_product_info(request.POST, request.FILES, instance=product)
         form.save()
+        print(form.errors)
         messages.success(request,"Successfully product information updated.")
-        return redirect("update_product",id)
+        return redirect("my_products")
 
     context = {
         'product':product,
         "form":form
     }
     
-
     return render(request, "update_product.html", context)
 
 
